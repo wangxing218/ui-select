@@ -1,5 +1,7 @@
 @charset "utf-8";
+
 /*ui-select样式，可根据实际项目需求进行调整*/
+
 .ui-select-wrap {
     display: inline-block;
     border: 1px solid #aaa;
@@ -14,7 +16,8 @@
     user-select: none;
     z-index: 8;
 }
-.ui-select-wrap:focus{
+
+.ui-select-wrap.focus {
     z-index: 9;
 }
 
@@ -66,16 +69,19 @@ select.ui-select {
     margin: 0;
     padding: 0;
     position: absolute;
+    z-index: 10;
     left: -1px;
     top: 30px;
     background-color: #fff;
     border: 1px solid #AAA;
-    min-width: 100%;
-    max-width: 150px;
+    width: 100%;
     overflow: auto;
-    overflow-x: hidden;
     max-height: 200px;
     border-radius: 0 3px 3px 3px;
+}
+
+.ui-select-wrap.focus .ui-select-list {
+    display: block;
 }
 
 .ui-select-list>li {

@@ -87,30 +87,41 @@
         // 绑定事件；
         _bindEvent: function() {
             var _this = this;
-             // 模拟后的select点击事件；
+            // 模拟后的select点击事件；
             _this._wrap.on({
                 // 点击事件
                 'click': function(e) {
                     // 列表元素点击事件；
-                    if (e.target.tagName == 'LI') { 
+                    if (_this._disabled)
+                        return;
+                    if (e.target.tagName == 'LI') {
                         var _self = $(e.target),
                             _val = _self.attr('data-value'),
                             _onChange = !_self.hasClass('selected');
                         if (_self.hasClass('disabled'))
-                            return;
+                            return _this._isIE ? e.stopPropagation() : null;
                         _this.val(_val);
                         if (_onChange) {
                             _this._changeBack(_val, _self);
                         }
                         _this._clickBack(_val, _self);
                     }
-                    if (_this._disabled)
-                        return;
-                    _this._list.toggle();
+
+                    // IE下点击select时其他select无法收起的bug
+                    if (_this._isIE) {
+                        e.stopPropagation();
+                        _this._allWrap = _this._allWrap || $('.ui-select-wrap');
+                        _this._allWrap.not(_this._wrap).removeClass('focus');
+                        _this._doc.one('click', function() {
+                            _this._allWrap.removeClass('focus');
+                        });
+                    }
+                    _this._wrap.toggleClass('focus');
+
                 },
                 // 失去焦点事件
-                'blur': function() {
-                    _this._list.hide();
+                'blur': function(e) {
+                    _this._wrap.removeClass('focus');
                 }
             });
             return _this;
@@ -129,6 +140,9 @@
             if (typeof this._opt.onClick == 'function')
                 this._opt.onClick.call(this, value, item);
         },
+
+        // 判断是否为IE (6-11);
+        _isIE: !!window.ActiveXObject || "ActiveXObject" in window,
 
         // 获取或设置值；
         val: function(value) {
