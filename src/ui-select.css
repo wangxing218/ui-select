@@ -1,5 +1,5 @@
 @charset "utf-8";
-
+/*ui-select样式，可根据实际项目需求进行调整*/
 .ui-select-wrap {
     display: inline-block;
     border: 1px solid #aaa;
@@ -10,8 +10,15 @@
     background-color: #f2f2f2;
     cursor: pointer;
     font: 100 16px/30px 'microsoft yahei';
-    -webkit-user-select:none;
-    user-select:none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+select.ui-select {
+    height: 32px;
+    vertical-align: top;
+    padding: 0 8px;
+    border: 1px solid #aaa;
 }
 
 .ui-select-wrap>select {
@@ -80,15 +87,17 @@
     background-color: #0080ff;
     color: #fff;
 }
-.ui-select-list>li.disabled{
-	background-color: #f2f2f2;
-	color: #999;
-	cursor: not-allowed;
+
+.ui-select-list>li.disabled {
+    background-color: #f2f2f2;
+    color: #999;
+    cursor: not-allowed;
 }
-.ui-select-list>li.disabled.selected{
-	background-color: #59ADFF;
-	color: #f2f2f2;
-	cursor: not-allowed;
+
+.ui-select-list>li.disabled.selected {
+    background-color: #59ADFF;
+    color: #f2f2f2;
+    cursor: not-allowed;
 }
 
 .ui-select-wrap.disabled {

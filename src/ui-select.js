@@ -1,26 +1,42 @@
 /**
  * ui-select美化插件
+ * 基于jQuery
  */
-+ function($) {
+; + function($) {
     'use strict';
+    // 默认实例化配置
     var defaults = {
-        width: null,
-        wrapClass: '',
-        onChange: null,
-        onClick: null
+        width: null, //select的宽度，默认为null将自动获取select的宽度；
+        wrapClass: '', //加载在最外层.ui-select-wrap有class，在自定义样式时有用处；
+        dataKey: 'ui-select', //实例化后对象存在select的data键值，方便后续通过data('ui-select')取出；
+        onChange: null, //select值改变时的回调；
+        onClick: null //select元素点击时的回调，diabled时不发生。
     };
+    /**
+     * ui-select插件
+     */
     $.fn.ui_select = function(options) {
-        var _this = $(this);
+        var _this = $(this),
+            _counts = _this.length;
+
+        // 当要实例的对象只有一个时，直接实例化返回对象；
+        if (_counts === 1) {
+            return new UI_select(_this, options);
+        };
+        // 当要实例的对象有多个时，循环实例化，不返回对象；
         if (_this.length) {
-            if (_this.length == 1)
-                return new UI_select(_this, options);
             _this.each(function(index, el) {
                 new UI_select($(el), options);
             })
         }
+        // 当元素个数为0时，不执行实例化。
     };
 
-
+    /**
+     * UI_select对象
+     * @param {[jQuery]} el  [jQuery选择后的对象，此处传入的为单个元素]
+     * @param {[object]} opt [设置的参数]
+     */
     function UI_select(el, opt) {
         this.el = el;
         this._opt = $.extend({}, defaults, opt);
@@ -29,17 +45,18 @@
         return this._init();
     }
     UI_select.prototype = {
-        // init初始化
+        // init初始化;
         _init: function() {
-            var _data = this.el.data('ui-select');
+            var _data = this.el.data(this._opt.dataKey);
+            // 如果已经实例化了，则直接返回
             if (_data)
                 return _data;
             else
-                this.el.data('ui-select', this);
-            this._setHtml();
-            this._bindEvent();
+                this.el.data(this._opt.dataKey, this);
+            this._setHtml(); // 组建元素
+            this._bindEvent(); // 绑定事件
         },
-        // 组建并获取相关的dom元素
+        // 组建并获取相关的dom元素;
         _setHtml: function() {
             this.el.wrap('<div tabindex="0" class="ui-select-wrap ' + this._opt.wrapClass + '"></div>')
                 .after('<div class="ui-select-input"></div><i class="ui-select-arrow"></i><ul class="ui-select-list"></ul>');
@@ -60,14 +77,14 @@
             this._list.html(_ohtml);
             this._items = this._list.children('li');
             this.val(this.el.val());
-            
+
             var _txt = this._list.children('li.selected').text();
-            this._input.text(_txt).attr('title', _txt);;
+            this._input.text(_txt).attr('title', _txt);
         },
-        // 绑定事件
+        // 绑定事件；
         _bindEvent: function() {
             var _this = this;
-            // 元素点击事件
+            // 列表元素点击事件；
             _this._items.on('click', function(e) {
                 var _self = $(this),
                     _val = _self.attr('data-value'),
@@ -80,7 +97,7 @@
                 }
                 _this._clickBack(_val, _self);
             });
-            // select点击事件
+            // 模拟后的select点击事件；
             _this._wrap.on('click', function(event) {
                 if (_this._disabled)
                     return;
@@ -92,8 +109,24 @@
                 _lists.not(_this._list).hide();
                 _this._list.toggle();
             });
+            return _this;
         },
-        // 获取/设置值
+        // change 触发；
+        _changeBack: function(value, item) {
+            this.el.change();
+            this.onChange(value, item);
+            if (typeof this._opt.onChange == 'function')
+                this._opt.onChange.call(this, value, item);
+        },
+
+        // click 触发；
+        _clickBack: function(value, item) {
+            this.onClick(value, item);
+            if (typeof this._opt.onClick == 'function')
+                this._opt.onClick.call(this, value, item);
+        },
+
+        // 获取或设置值；
         val: function(value) {
             if (value === undefined)
                 return this.el.val();
@@ -103,36 +136,22 @@
             this._input.html(_selectedLi.text()).attr('title', _selectedLi.text());;
         },
 
-        // 值改变事件
+        // 值改变事件；
         onChange: function(value, item) {},
-        // 点击事件
+        // 点击事件；
         onClick: function(value, item) {},
 
-        // change 触发
-        _changeBack: function(value, item) {
-            this.el.change();
-            this.onChange(value, item);
-            if (typeof this._opt.onChange == 'function')
-                this._opt.onChange.call(this, value, item);
-        },
-        // 禁用
+        // 禁用select；
         disable: function() {
             this._disabled = true;
             this._wrap.addClass('disabled');
             return this;
         },
-        // 启用
+        // 启用select；
         enable: function() {
             this._disabled = false;
             this._wrap.removeClass('disabled');
             return this;
-        },
-
-        // click 触发
-        _clickBack: function(value, item) {
-            this.onClick(value, item);
-            if (typeof this._opt.onClick == 'function')
-                this._opt.onClick.call(this, value, item);
         }
     };
 }(jQuery);
