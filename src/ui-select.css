@@ -12,13 +12,20 @@
     font: 100 16px/30px 'microsoft yahei';
     -webkit-user-select: none;
     user-select: none;
+    z-index: 8;
+}
+.ui-select-wrap:focus{
+    z-index: 9;
 }
 
 select.ui-select {
     height: 32px;
     vertical-align: top;
-    padding: 0 8px;
+    padding: 0 8px 0 4px;
     border: 1px solid #aaa;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    font: 100 16px/30px 'microsoft yahei';
 }
 
 .ui-select-wrap>select {
@@ -65,7 +72,8 @@ select.ui-select {
     border: 1px solid #AAA;
     min-width: 100%;
     max-width: 150px;
-    overflow: hidden auto;
+    overflow: auto;
+    overflow-x: hidden;
     max-height: 200px;
     border-radius: 0 3px 3px 3px;
 }

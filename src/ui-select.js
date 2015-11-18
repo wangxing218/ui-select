@@ -24,7 +24,7 @@
             return new UI_select(_this, options);
         };
         // 当要实例的对象有多个时，循环实例化，不返回对象；
-        if (_this.length) {
+        if (_counts > 1) {
             _this.each(function(index, el) {
                 new UI_select($(el), options);
             })
@@ -44,6 +44,8 @@
         this._win = $(window);
         return this._init();
     }
+
+    // UI_select 原型链扩展。
     UI_select.prototype = {
         // init初始化;
         _init: function() {
@@ -58,9 +60,10 @@
         },
         // 组建并获取相关的dom元素;
         _setHtml: function() {
+            this.el.addClass('ui-select');
+            var _w = this._opt.width ? this._opt.width - 17 : this.el.outerWidth() - 17;
             this.el.wrap('<div tabindex="0" class="ui-select-wrap ' + this._opt.wrapClass + '"></div>')
                 .after('<div class="ui-select-input"></div><i class="ui-select-arrow"></i><ul class="ui-select-list"></ul>');
-            var _w = this._opt.width ? this._opt.width - 17 : this.el.outerWidth() - 17;
             this._wrap = this.el.parent('.ui-select-wrap').css('width', _w);
             this._input = this.el.next('.ui-select-input');
             this._list = this._wrap.children('.ui-select-list');
@@ -84,30 +87,31 @@
         // 绑定事件；
         _bindEvent: function() {
             var _this = this;
-            // 列表元素点击事件；
-            _this._items.on('click', function(e) {
-                var _self = $(this),
-                    _val = _self.attr('data-value'),
-                    _onChange = !_self.hasClass('selected');
-                if (_self.hasClass('disabled'))
-                    return;
-                _this.val(_val);
-                if (_onChange) {
-                    _this._changeBack(_val, _self);
+             // 模拟后的select点击事件；
+            _this._wrap.on({
+                // 点击事件
+                'click': function(e) {
+                    // 列表元素点击事件；
+                    if (e.target.tagName == 'LI') { 
+                        var _self = $(e.target),
+                            _val = _self.attr('data-value'),
+                            _onChange = !_self.hasClass('selected');
+                        if (_self.hasClass('disabled'))
+                            return;
+                        _this.val(_val);
+                        if (_onChange) {
+                            _this._changeBack(_val, _self);
+                        }
+                        _this._clickBack(_val, _self);
+                    }
+                    if (_this._disabled)
+                        return;
+                    _this._list.toggle();
+                },
+                // 失去焦点事件
+                'blur': function() {
+                    _this._list.hide();
                 }
-                _this._clickBack(_val, _self);
-            });
-            // 模拟后的select点击事件；
-            _this._wrap.on('click', function(event) {
-                if (_this._disabled)
-                    return;
-                event.stopPropagation();
-                var _lists = $('.ui-select-list');
-                _this._doc.one('click', function() {
-                    _lists.hide();
-                })
-                _lists.not(_this._list).hide();
-                _this._list.toggle();
             });
             return _this;
         },
@@ -144,13 +148,13 @@
         // 禁用select；
         disable: function() {
             this._disabled = true;
-            this._wrap.addClass('disabled');
+            this._wrap.addClass('disabled').removeAttr('tabindex');
             return this;
         },
         // 启用select；
         enable: function() {
             this._disabled = false;
-            this._wrap.removeClass('disabled');
+            this._wrap.removeClass('disabled').attr('tabindex', '0');;
             return this;
         }
     };
