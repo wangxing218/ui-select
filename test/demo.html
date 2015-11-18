@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>ui-select</title>
+    <link href="../src/ui-select.css" rel="stylesheet" />
+    <style>
+    .ui-input {
+        vertical-align: top;
+        height: 18px;
+        font-size: 16px;
+        line-height: 20px;
+        border: 1px solid #aaa;
+        padding: 6px 8px;
+        border-radius: 3px;
+    }
+    </style>
+</head>
+
+<body>
+    <input type="text" class="ui-input">
+    <select class="ui-select" onchange="haha(this)" name="select" id="select">
+        <option value="1">身份证</option>
+        <option value="2" disabled>学生证</option>
+        <option value="3" disabled>港澳通行证</option>
+        <option value="4" disabled>结婚证</option>
+        <option value="5" disabled selected>房产证</option>
+        <option value="6">港澳通行证港澳通行证</option>
+    </select>
+    <select class="ui-select" name="select">
+        <option value="301">身份证</option>
+        <option value="302">学生证</option>
+        <option value="303">港澳通行证</option>
+        <option value="304">结婚证</option>
+        <option value="305">房产证</option>
+    </select>
+    <select class="ui-select-1" name="select" id="se2">
+        <option value="301">身份证</option>
+        <option value="302">学生证</option>
+        <option value="303">港澳通行证</option>
+        <option value="304" disabled selected>结婚证</option>
+        <option value="305">房产证</option>
+    </select>
+    <input type="text" class="ui-input">
+</body>
+<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="../src/ui-select.js"></script>
+<script>
+// test
+var sel = $('.ui-select').ui_select({
+    onChange: function(value, el) {
+        console.log('这是来自options的onchange-value:  ' + this.val());
+    },
+    onClick: function(value, el) {
+        console.log('这是来自options的onClick-value:  ' + this.val());
+    }
+});
+
+function haha(el) {
+    var val = $(el).val();
+    if (val == '3') {
+        $('.ui-select').eq(1).data('ui-select').disable();
+    } else {
+        $('.ui-select').eq(1).data('ui-select').enable();
+    };
+    console.log('这是来自标签内的onchange-value:  ' + $(el).val());
+}
+$('#select').on('change', function(e) {
+    console.log('这是来自jquery的onchange-value:  ' + $(this).val());
+});
+
+var usel = $('#select').data('ui-select');
+usel.onChange = function(value) {
+    console.log('这是来自prototype的onchange-value:  ' + value);
+}
+
+usel.onClick = function(value) {
+    console.log('这是来自prototype的onClick-value:  ' + value);
+
+}
+</script>
+
+</html>
