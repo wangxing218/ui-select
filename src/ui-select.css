@@ -80,6 +80,11 @@ select.ui-select {
     border-radius: 0 3px 3px 3px;
 }
 
+.ui-select-wrap.up .ui-select-list {
+    top: auto;
+    bottom: 30px;
+}
+
 .ui-select-wrap.focus .ui-select-list {
     display: block;
 }

@@ -119,10 +119,10 @@
 <script>
 // test
 $('.ui-select').ui_select({
-    onChange: function(value, el) {
-        console.log('这是来自options的onchange-value:  ' + this.val());
+    onChange: function(value, item) {
+        console.log('这是来自options的onchange-value:  ' + item.prop('tagName'));
     },
-    onClick: function(value, el) {
+    onClick: function(value, item) {
         console.log('这是来自options的onClick-value:  ' + this.val());
     }
 });

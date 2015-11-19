@@ -39,6 +39,7 @@
      */
     function UI_select(el, opt) {
         this.el = el;
+        this.items = this.el.find('option');
         this._opt = $.extend({}, defaults, opt);
         this._doc = $(document);
         this._win = $(window);
@@ -47,6 +48,9 @@
 
     // UI_select 原型链扩展。
     UI_select.prototype = {
+        // 判断是否为IE (6-11);
+        _isIE: !!window.ActiveXObject || "ActiveXObject" in window,
+
         // init初始化;
         _init: function() {
             var _data = this.el.data(this._opt.dataKey);
@@ -58,6 +62,7 @@
             this._setHtml(); // 组建元素
             this._bindEvent(); // 绑定事件
         },
+
         // 组建并获取相关的dom元素;
         _setHtml: function() {
             this.el.addClass('ui-select');
@@ -84,6 +89,7 @@
             var _txt = this._list.children('li.selected').text();
             this._input.text(_txt).attr('title', _txt);
         },
+
         // 绑定事件；
         _bindEvent: function() {
             var _this = this;
@@ -96,15 +102,11 @@
                         return;
                     if (e.target.tagName == 'LI') {
                         var _self = $(e.target),
-                            _val = _self.attr('data-value'),
-                            _onChange = !_self.hasClass('selected');
+                            _val = _self.attr('data-value');
                         if (_self.hasClass('disabled'))
                             return _this._isIE ? e.stopPropagation() : null;
                         _this.val(_val);
-                        if (_onChange) {
-                            _this._changeBack(_val, _self);
-                        }
-                        _this._clickBack(_val, _self);
+                        _this._triggerClick(_val, _this.items.eq(_self.index()));
                     }
 
                     // IE下点击select时其他select无法收起的bug
@@ -117,7 +119,7 @@
                         });
                     }
                     _this._wrap.toggleClass('focus');
-
+                    _this._setListCss();
                 },
                 // 失去焦点事件
                 'blur': function(e) {
@@ -126,36 +128,51 @@
             });
             return _this;
         },
-        // change 触发；
-        _changeBack: function(value, item) {
+
+        // 根据select所处的位置设置下拉列表显示方向up / down
+        _setListCss: function() {
+            var _toWinTop = this._wrap.offset().top - this._win.scrollTop();
+            var _toWinBottom = this._win.height() - _toWinTop - this._wrap.outerHeight();
+            if (this._list.outerHeight() > _toWinBottom && _toWinTop > _toWinBottom) {
+                this._wrap.addClass('up');
+            } else {
+                this._wrap.removeClass('up');
+            }
+        },
+
+
+        // change 触发；value：值 ；item：选中的option；
+        _triggerChange: function(value, item) {
             this.el.change();
             this.onChange(value, item);
             if (typeof this._opt.onChange == 'function')
                 this._opt.onChange.call(this, value, item);
         },
 
-        // click 触发；
-        _clickBack: function(value, item) {
+        // click 触发；value：值 ；item：选中的option；
+        _triggerClick: function(value, item) {
             this.onClick(value, item);
             if (typeof this._opt.onClick == 'function')
                 this._opt.onClick.call(this, value, item);
         },
 
-        // 判断是否为IE (6-11);
-        _isIE: !!window.ActiveXObject || "ActiveXObject" in window,
-
         // 获取或设置值；
         val: function(value) {
+            var _val = this.el.val();
             if (value === undefined)
-                return this.el.val();
+                return _val;
             this.el.val(value);
             var _selectedLi = this._list.children('li[data-value="' + value + '"]');
             _selectedLi.addClass('selected').siblings('li').removeClass('selected');
-            this._input.html(_selectedLi.text()).attr('title', _selectedLi.text());;
+            this._input.html(_selectedLi.text()).attr('title', _selectedLi.text());
+            if (_val != value) {
+                return this._triggerChange(value, this.items.eq(_selectedLi.index()));
+            }
         },
 
         // 值改变事件；
         onChange: function(value, item) {},
+
         // 点击事件；
         onClick: function(value, item) {},
 
@@ -165,6 +182,7 @@
             this._wrap.addClass('disabled').removeAttr('tabindex');
             return this;
         },
+
         // 启用select；
         enable: function() {
             this._disabled = false;
