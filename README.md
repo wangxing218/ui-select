@@ -9,7 +9,7 @@ $('select').ui_select();
 ```
 
 #预览
-![](blob/master/test/demo.jpg?raw=true)  
+![](https://raw.githubusercontent.com/wangxing218/ui-select/master/test/demo.jpg)  
 
 #兼容性
 IE8+, Chrome, Firefox, Edge, 360, Sougou 等主流浏览器;
