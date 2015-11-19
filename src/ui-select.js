@@ -227,6 +227,13 @@
         toggle: function() {
             this._wrap.toggle();
             return this;
+        },
+
+        // visable
+        visable: function(visable) {
+            visable = !visable ? 'hidden' : 'initial';
+            this._wrap.css('visibility', visable);
+            return this;
         }
 
     };

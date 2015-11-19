@@ -122,6 +122,8 @@
                         <option value="3">禁用sel_03</option>
                         <option value="4">设置sel_01值为：3</option>
                         <option value="5">隐藏/显示 sel_02</option>
+                        <option value="6">visable:hidden sel_02</option>
+                        <option value="7">visable:show sel_02</option>
                     </select>
                 </td>
             </tr>
@@ -150,6 +152,12 @@ obj.onClick = function(value) {
             break;
         case '5':
             $('#sel_02').data('ui-select').toggle();
+            break;
+        case '6':
+            $('#sel_02').data('ui-select').visable();
+            break;
+        case '7':
+            $('#sel_02').data('ui-select').visable(true);
             break;
     }
 }
