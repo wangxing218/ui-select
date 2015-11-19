@@ -124,6 +124,17 @@
                 // 失去焦点事件
                 'blur': function(e) {
                     _this._wrap.removeClass('focus');
+                },
+                'keydown': function(e) {
+                    var code = e.keyCode;
+                    if (code == 40 || code == 38) {
+                        var _els = code == 40 ? _this._list.find('li.selected').nextAll('li') : _this._list.find('li.selected').prevAll('li');
+                        var _val = _els.not('.disabled').eq(0).attr('data-value');
+                        if (_val !== undefined) {
+                            _this.val(_val);
+                        }
+                        return false;
+                    }
                 }
             });
             return _this;
@@ -133,13 +144,21 @@
         _setListCss: function() {
             var _toWinTop = this._wrap.offset().top - this._win.scrollTop();
             var _toWinBottom = this._win.height() - _toWinTop - this._wrap.outerHeight();
-            if (this._list.outerHeight() > _toWinBottom && _toWinTop > _toWinBottom) {
+            var _listH = this._list.outerHeight();
+            if (_listH > _toWinBottom && _toWinTop > _toWinBottom) {
                 this._wrap.addClass('up');
+                if (_listH > _toWinTop)
+                    this._list.css('maxHeight', _toWinTop - 1 + 'px');
+                else
+                    this._list.removeAttr('style');
+            } else if (_listH > _toWinBottom && _toWinTop < _toWinBottom) {
+                this._wrap.removeClass('up');
+                this._list.css('maxHeight', _toWinBottom - 1 + 'px');
             } else {
+                this._list.removeAttr('style');
                 this._wrap.removeClass('up');
             }
         },
-
 
         // change 触发；value：值 ；item：选中的option；
         _triggerChange: function(value, item) {
@@ -179,6 +198,7 @@
         // 禁用select；
         disable: function() {
             this._disabled = true;
+            this.el.prop('disabled', true);
             this._wrap.addClass('disabled').removeAttr('tabindex');
             return this;
         },
@@ -186,7 +206,8 @@
         // 启用select；
         enable: function() {
             this._disabled = false;
-            this._wrap.removeClass('disabled').attr('tabindex', '0');;
+            this.el.prop('disabled', false);
+            this._wrap.removeClass('disabled').attr('tabindex', '0');
             return this;
         }
     };
