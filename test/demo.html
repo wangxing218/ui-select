@@ -48,9 +48,11 @@
         <table class="demo-table">
             <caption>下拉框演示</caption>
             <tr>
-                <td style="width:120px;">普通</td>
+                <td style="width:120px;">
+                    <label for="sel_01">普通</label>
+                </td>
                 <td>
-                    <select class="ui-select" style="width:100%">
+                    <select class="ui-select" id="sel_01" style="width:100%">
                         <option value="1">选项一</option>
                         <option value="2">选项二</option>
                         <option value="3">选项三</option>
@@ -63,7 +65,7 @@
             <tr>
                 <td>带滚动条</td>
                 <td>
-                    <select class="ui-select" style="width:100%">
+                    <select class="ui-select" id="sel_02" style="width:100%">
                         <option value="1">选项一</option>
                         <option value="2">选项二</option>
                         <option value="3">选项三</option>
@@ -88,7 +90,7 @@
             <tr>
                 <td>禁用</td>
                 <td>
-                    <select class="ui-select" disabled="disabled" style="width:100%">
+                    <select class="ui-select" id="sel_03" disabled style="width:100%">
                         <option value="1">选项一</option>
                         <option value="2">选项二</option>
                         <option value="3">选项三</option>
@@ -101,13 +103,25 @@
             <tr>
                 <td>选项禁用</td>
                 <td>
-                    <select class="ui-select" style="width:100%">
+                    <select class="ui-select" id="sel_04" style="width:100%">
                         <option value="1">选项一</option>
                         <option value="2">选项二</option>
                         <option value="3">选项三</option>
-                        <option value="4" disabled="disabled">选项四</option>
+                        <option value="4" disabled>选项四</option>
                         <option value="5">选项五</option>
                         <option value="6">选项六</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>API调用</td>
+                <td>
+                    <select class="ui-select" id="sel_api" style="width:100%">
+                        <option value="">请选择api</option>
+                        <option value="2">启用sel_03</option>
+                        <option value="3">禁用sel_03</option>
+                        <option value="4">设置sel_01值为：3</option>
+                        <option value="5">隐藏/显示 sel_02</option>
                     </select>
                 </td>
             </tr>
@@ -117,39 +131,28 @@
 <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
 <script src="../src/ui-select.js"></script>
 <script>
-// test
-$('.ui-select').ui_select({
-    onChange: function(value, item) {
-        console.log('这是来自options的onchange-value:  ' + item.prop('tagName'));
-    },
-    onClick: function(value, item) {
-        console.log('这是来自options的onClick-value:  ' + this.val());
+// 将所有.ui-select实例化
+$('.ui-select').ui_select();
+
+// 获取已经实例化的select对象
+var obj = $('#sel_api').data('ui-select');
+
+obj.onClick = function(value) {
+    switch (value) {
+        case '2':
+            $('#sel_03').data('ui-select').enable();
+            break;
+        case '3':
+            $('#sel_03').data('ui-select').disable();
+            break;
+        case '4':
+            $('#sel_01').data('ui-select').val('3');
+            break;
+        case '5':
+            $('#sel_02').data('ui-select').toggle();
+            break;
     }
-});
-
-function haha(obj) {
-    var val = $(el).val();
-    if (val == '3') {
-        $('.ui-select').eq(1).data('ui-select').disable();
-    } else {
-        $('.ui-select').eq(1).data('ui-select').enable();
-    };
-    console.log('这是来自标签内的onchange-value:  ' + $(el).val());
 }
-
-$('#select').on('change', function(e) {
-    console.log('这是来自jquery的onchange-value:  ' + $(this).val());
-});
-
-// var usel = $('#select').data('ui-select');
-// usel.onChange = function(value) {
-//     console.log('这是来自prototype的onchange-value:  ' + value);
-// }
-
-// usel.onClick = function(value) {
-//     console.log('这是来自prototype的onClick-value:  ' + value);
-
-// }
 </script>
 
 </html>

@@ -17,14 +17,14 @@
      */
     $.fn.ui_select = function(options) {
         var _this = $(this),
-            _counts = _this.length;
+            _num = _this.length;
 
         // 当要实例的对象只有一个时，直接实例化返回对象；
-        if (_counts === 1) {
+        if (_num === 1) {
             return new UI_select(_this, options);
         };
         // 当要实例的对象有多个时，循环实例化，不返回对象；
-        if (_counts > 1) {
+        if (_num > 1) {
             _this.each(function(index, el) {
                 new UI_select($(el), options);
             })
@@ -209,6 +209,25 @@
             this.el.prop('disabled', false);
             this._wrap.removeClass('disabled').attr('tabindex', '0');
             return this;
+        },
+
+        // 隐藏
+        hide: function() {
+            this._wrap.hide();
+            return this;
+        },
+
+        // 显示
+        show: function() {
+            this._wrap.show();
+            return this;
+        },
+
+        // 显示 或 隐藏
+        toggle: function() {
+            this._wrap.toggle();
+            return this;
         }
+
     };
 }(jQuery);

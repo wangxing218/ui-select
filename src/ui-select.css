@@ -15,6 +15,7 @@
     -webkit-user-select: none;
     user-select: none;
     z-index: 8;
+    vertical-align: top;
 }
 
 .ui-select-wrap.focus {
@@ -99,7 +100,7 @@ select.ui-select {
 }
 
 .ui-select-list>li:hover {
-    background-color: #f2f2f2;
+    background-color: #ddd;
 }
 
 .ui-select-list>li.selected {
