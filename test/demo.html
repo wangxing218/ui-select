@@ -65,7 +65,7 @@
             <tr>
                 <td>带滚动条</td>
                 <td>
-                    <select class="ui-select" id="sel_02" style="width:100%">
+                    <select class="ui-select" id="sel_02" style="width:100%;">
                         <option value="1">选项一</option>
                         <option value="2">选项二</option>
                         <option value="3">选项三</option>
@@ -130,7 +130,7 @@
         </table>
     </div>
 </body>
-<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
 <script src="../src/ui-select.js"></script>
 <script>
 // 将所有.ui-select实例化
@@ -154,10 +154,10 @@ obj.onClick = function(value) {
             $('#sel_02').data('ui-select').toggle();
             break;
         case '6':
-            $('#sel_02').data('ui-select').visable();
+            $('#sel_02').data('ui-select').visible();
             break;
         case '7':
-            $('#sel_02').data('ui-select').visable(true);
+            $('#sel_02').data('ui-select').visible(true);
             break;
     }
 }

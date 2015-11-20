@@ -66,6 +66,10 @@
         // 组建并获取相关的dom元素;
         _setHtml: function() {
             this.el.addClass('ui-select');
+            var _isHide = (this.el.css('display') == 'none');
+            if (_isHide) {
+                this.el.show().css('visibility', 'hidden');
+            }
             var _w = this._opt.width ? this._opt.width - 17 : this.el.outerWidth() - 17;
             this.el.wrap('<div tabindex="0" class="ui-select-wrap ' + this._opt.wrapClass + '"></div>')
                 .after('<div class="ui-select-input"></div><i class="ui-select-arrow"></i><ul class="ui-select-list"></ul>');
@@ -73,6 +77,10 @@
             this._input = this.el.next('.ui-select-input');
             this._list = this._wrap.children('.ui-select-list');
             this.el.prop('disabled') ? this.disable() : null;
+            if (_isHide) {
+                this.el.add(this._wrap).hide();
+                this.el.css('visibility', null);
+            }
             var _ohtml = '';
             this.el.find('option').each(function(index, el) {
                 var _this = $(el),
@@ -125,6 +133,7 @@
                 'blur': function(e) {
                     _this._wrap.removeClass('focus');
                 },
+                // 键盘事件
                 'keydown': function(e) {
                     var code = e.keyCode;
                     if (code == 40 || code == 38) {
@@ -229,10 +238,10 @@
             return this;
         },
 
-        // visable
-        visable: function(visable) {
-            visable = !visable ? 'hidden' : 'initial';
-            this._wrap.css('visibility', visable);
+        // visible
+        visible: function(visible) {
+            visible = !visible ? 'hidden' : 'visible';
+            this._wrap.css('visibility', visible);
             return this;
         }
 
