@@ -3,7 +3,7 @@
  * 基于jQuery
  */
 ; + function($) {
-    'use strict';
+    "use strict";
     // 默认实例化配置
     var defaults = {
         width: null, //select的宽度，默认为null将自动获取select的宽度；
