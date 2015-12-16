@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>ui-select</title>
+    <link href="../src/ui-select.css" rel="stylesheet" />
+    <style>
+    .demo-box {
+        margin: 40px auto;
+        width: 500px;
+        padding: 20px;
+        border: 5px solid #ccc;
+    }
+    
+    .demo-table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+    
+    .demo-table caption {
+        border-bottom: 1px dashed #ccc;
+        height: 40px;
+        margin-bottom: 20px;
+        font: 18px/1.2 normal 'microsoft yahei';
+    }
+    
+    .demo-table tr td {
+        padding: 8px 10px;
+        font: 16px/1.8 normal 'microsoft yahei';
+        vertical-align: top;
+    }
+    
+    .ui-input {
+        vertical-align: top;
+        height: 18px;
+        font-size: 16px;
+        line-height: 20px;
+        border: 1px solid #aaa;
+        padding: 6px 8px;
+        border-radius: 3px;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="demo-box">
+        <table class="demo-table">
+            <caption>下拉框演示</caption>
+            <tr>
+                <td style="width:120px;">
+                    <label for="sel_01">普通</label>
+                </td>
+                <td>
+                    <select class="ui-select" id="sel_01" style="width:100%">
+                        <option value="1">选项一</option>
+                        <option value="2">选项二</option>
+                        <option value="3">选项三</option>
+                        <option value="4">选项四</option>
+                        <option value="5">选项五</option>
+                        <option value="6">选项六</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>带滚动条</td>
+                <td>
+                    <select class="ui-select" id="sel_02" style="width:100%;">
+                        <option value="1">选项一</option>
+                        <option value="2">选项二</option>
+                        <option value="3">选项三</option>
+                        <option value="4">选项四</option>
+                        <option value="5">选项五</option>
+                        <option value="6">选项六</option>
+                        <option value="7">选项七</option>
+                        <option value="8">选项八</option>
+                        <option value="9">选项九</option>
+                        <option value="10">选项十</option>
+                        <option value="11" selected="seleced">选项十一</option>
+                        <option value="12">选项十二</option>
+                        <option value="13">选项十三</option>
+                        <option value="14">选项十四</option>
+                        <option value="15">选项十五</option>
+                        <option value="16">选项十六</option>
+                        <option value="17">选项十七</option>
+                        <option value="18">选项十八</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>禁用</td>
+                <td>
+                    <select class="ui-select" id="sel_03" disabled style="width:100%">
+                        <option value="1">选项一</option>
+                        <option value="2">选项二</option>
+                        <option value="3">选项三</option>
+                        <option value="4">选项四</option>
+                        <option value="5">选项五</option>
+                        <option value="6">选项六</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>选项禁用</td>
+                <td>
+                    <select class="ui-select" id="sel_04" style="width:100%">
+                        <option value="1">选项一</option>
+                        <option value="2">选项二</option>
+                        <option value="3">选项三</option>
+                        <option value="4" disabled>选项四</option>
+                        <option value="5">选项五</option>
+                        <option value="6">选项六</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>API调用</td>
+                <td>
+                    <select class="ui-select" id="sel_api" style="width:100%">
+                        <option value="">请选择api</option>
+                        <option value="2">启用sel_03</option>
+                        <option value="3">禁用sel_03</option>
+                        <option value="4">设置sel_01值为：3</option>
+                        <option value="5">隐藏/显示 sel_02</option>
+                        <option value="6">visable:hidden sel_02</option>
+                        <option value="7">visable:show sel_02</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="../src/ui-select.js"></script>
+<script>
+// 将所有.ui-select实例化
+$('.ui-select').ui_select();
+
+// 获取已经实例化的select对象
+var obj = $('#sel_api').data('ui-select');
+
+obj.onClick = function(value) {
+    switch (value) {
+        case '2':
+            $('#sel_03').data('ui-select').enable();
+            break;
+        case '3':
+            $('#sel_03').data('ui-select').disable();
+            break;
+        case '4':
+            $('#sel_01').data('ui-select').val('3');
+            break;
+        case '5':
+            $('#sel_02').data('ui-select').toggle();
+            break;
+        case '6':
+            $('#sel_02').data('ui-select').visible();
+            break;
+        case '7':
+            $('#sel_02').data('ui-select').visible(true);
+            break;
+    }
+}
+</script>
+
+</html>
