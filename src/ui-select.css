@@ -4,12 +4,11 @@
 
 .ui-select-wrap {
     display: inline-block;
-    border: 1px solid #aaa;
+    border: 1px solid #ccc;
     position: relative;
-    height: 30px;
+    height: 32px;
     padding-right: 15px;
     border-radius: 3px;
-    background-color: #f2f2f2;
     cursor: pointer;
     font: 100 16px/30px 'microsoft yahei';
     -webkit-user-select: none;
@@ -23,7 +22,7 @@
 }
 
 select.ui-select {
-    height: 32px;
+    height: 34px;
     vertical-align: top;
     padding: 0 8px 0 4px;
     border: 1px solid #aaa;
@@ -34,9 +33,9 @@ select.ui-select {
 
 .ui-select-wrap>select {
     display: none;
-    height: 32px;
+    height: 34px;
     vertical-align: top;
-    padding: 0 8px;
+    padding: 0 4px;
     border: 1px solid #aaa;
 }
 
@@ -55,13 +54,26 @@ select.ui-select {
 .ui-select-arrow {
     display: block;
     position: absolute;
-    right: 3px;
-    top: 40%;
+    right: 5px;
+    top: 50%;
     height: 0;
     width: 0;
     border: 5px solid transparent;
     border-width: 6px 5px 0 5px;
-    border-top-color: #999;
+    border-top-color: #aaa;
+}
+
+.ui-select-arrow:after{
+    content:"";
+    display: block;
+    position: absolute;
+    right: -5px;
+    top: -14px;
+    height: 0;
+    width: 0;
+    border: 5px solid transparent;
+    border-width: 0 5px 6px 5px;
+    border-bottom-color: #aaa;
 }
 
 .ui-select-list {
@@ -72,7 +84,7 @@ select.ui-select {
     position: absolute;
     z-index: 10;
     left: -1px;
-    top: 30px;
+    top: 100%;
     background-color: #fff;
     border: 1px solid #AAA;
     width: 100%;
@@ -83,7 +95,7 @@ select.ui-select {
 
 .ui-select-wrap.up .ui-select-list {
     top: auto;
-    bottom: 30px;
+    bottom: 100%;
 }
 
 .ui-select-wrap.focus .ui-select-list {
@@ -127,5 +139,5 @@ select.ui-select {
 }
 
 .ui-select-wrap.disabled .ui-select-arrow {
-    border-top-color: #ccc;
+    opacity: .5;
 }
