@@ -28,7 +28,7 @@ select.ui-select {
     border: 1px solid #aaa;
     border-radius: 3px;
     background-color: #f2f2f2;
-    font: 100 16px/30px 'microsoft yahei';
+    font: 100 16px/1 'microsoft yahei';
 }
 
 .ui-select-wrap>select {
