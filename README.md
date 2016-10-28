@@ -2,7 +2,7 @@
 html原生的select标签在不同浏览器下表现不一致！
 为提升用户体验和select标签的一致性，您可以选择ui-select插件
 
-##[demo](http://wangxing218.github.io/ui-select/test/demo.html)
+##[demo](https://wangxing218.github.io/ui-select/test/demo.html)
 
 
 ##基于jquery,使用非常方便！
