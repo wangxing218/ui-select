@@ -11,7 +11,7 @@ html原生的select标签在不同浏览器下表现不一致！
 $('select').ui_select();
 
 //获取select的实例
-var slc = $('#id').data('ui-switch');
+var slc = $('#id').data('ui-select');
 
 //值改变时发生
 slc.change = function(value , item){
